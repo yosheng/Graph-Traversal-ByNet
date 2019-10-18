@@ -49,6 +49,8 @@ namespace Graph_Traversal
             queue.Enqueue(point);
             var seen = new HashSet<string>();
             seen.Add(point);
+            // 纪录每个节点的邻近父节点
+            var parent = new Dictionary<string, string> { { point, "NONE" } };
             while (queue.Count > 0)
             {
                 var vertex = queue.Dequeue().ToString();
@@ -59,10 +61,18 @@ namespace Graph_Traversal
                     if(!seen.Contains(node))
                     {
                         queue.Enqueue(node);
-                        seen.Add(node);                        
+                        seen.Add(node);
+                        // 纪录不存在点的父节点
+                        parent[node] = vertex;
                     }                    
                 }
                 Console.WriteLine(vertex);
+            }
+            // 输出父节点
+            Console.WriteLine("Point -> Parent Point");
+            foreach (var item in parent)
+            {
+                Console.WriteLine($"{item.Key} -> {item.Value}");
             }
         }
 
@@ -73,6 +83,8 @@ namespace Graph_Traversal
             stack.Push(point);
             var seen = new HashSet<string>();
             seen.Add(point);
+            // 纪录每个节点的邻近父节点
+            var parent = new Dictionary<string, string> { { point, "NONE" } };
             while (stack.Count > 0)
             {
                 var vertex = stack.Pop().ToString();
@@ -84,9 +96,17 @@ namespace Graph_Traversal
                     {
                         stack.Push(node);
                         seen.Add(node);
+                        // 纪录不存在点的父节点
+                        parent[node] = vertex;
                     }
                 }
                 Console.WriteLine(vertex);
+            }
+            // 输出父节点
+            Console.WriteLine("Point -> Parent Point");
+            foreach (var item in parent)
+            {
+                Console.WriteLine($"{item.Key} -> {item.Value}");
             }
         }
     }
