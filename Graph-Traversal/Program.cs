@@ -19,6 +19,9 @@ namespace Graph_Traversal
             { "F", new []{ "D"} },
         };
 
+        // 纪录每个节点的邻近父节点
+        static Dictionary<string, string> parent = new Dictionary<string, string>();
+
         static void Main(string[] args)
         {
             Console.WriteLine("Please enter number for graph travelsal:");
@@ -27,18 +30,36 @@ namespace Graph_Traversal
             var option = "";
             option = Console.ReadLine();
             Console.Write("Start Point(A-F): ");
-            var point = "";
-            point = Console.ReadLine();
+            var start = "";
+            start = Console.ReadLine();
+            parent[start] = "NONE";
             switch (option)
             {
                 case "1":
-                    BFS(point);
+                    BFS(start);
                     break;
                 case "2":
-                    DFS(point);
+                    DFS(start);
                     break;
                 default:
                     break;
+            }
+
+            // 输出父节点
+            Console.WriteLine("Point -> Parent Point");
+            foreach (var item in parent)
+            {
+                Console.WriteLine($"{item.Key} -> {item.Value}");
+            }
+
+            // 寻找最短路径
+            Console.Write("End Point(A-F): ");
+            var end = "";
+            end = Console.ReadLine();
+            while(end != "NONE")
+            {
+                Console.WriteLine(end);
+                end = parent[end];
             }
         }
 
@@ -49,8 +70,6 @@ namespace Graph_Traversal
             queue.Enqueue(point);
             var seen = new HashSet<string>();
             seen.Add(point);
-            // 纪录每个节点的邻近父节点
-            var parent = new Dictionary<string, string> { { point, "NONE" } };
             while (queue.Count > 0)
             {
                 var vertex = queue.Dequeue().ToString();
@@ -68,12 +87,6 @@ namespace Graph_Traversal
                 }
                 Console.WriteLine(vertex);
             }
-            // 输出父节点
-            Console.WriteLine("Point -> Parent Point");
-            foreach (var item in parent)
-            {
-                Console.WriteLine($"{item.Key} -> {item.Value}");
-            }
         }
 
         static void DFS(string point)
@@ -83,8 +96,6 @@ namespace Graph_Traversal
             stack.Push(point);
             var seen = new HashSet<string>();
             seen.Add(point);
-            // 纪录每个节点的邻近父节点
-            var parent = new Dictionary<string, string> { { point, "NONE" } };
             while (stack.Count > 0)
             {
                 var vertex = stack.Pop().ToString();
@@ -101,12 +112,6 @@ namespace Graph_Traversal
                     }
                 }
                 Console.WriteLine(vertex);
-            }
-            // 输出父节点
-            Console.WriteLine("Point -> Parent Point");
-            foreach (var item in parent)
-            {
-                Console.WriteLine($"{item.Key} -> {item.Value}");
             }
         }
     }
