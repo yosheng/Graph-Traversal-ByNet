@@ -26,12 +26,16 @@ namespace Graph_Traversal
             Console.Write("Option: ");
             var option = "";
             option = Console.ReadLine();
+            Console.Write("Start Point(A-F): ");
+            var point = "";
+            point = Console.ReadLine();
             switch (option)
             {
                 case "1":
-                    BFS("A");
+                    BFS(point);
                     break;
                 case "2":
+                    DFS(point);
                     break;
                 default:
                     break;
@@ -57,6 +61,30 @@ namespace Graph_Traversal
                         queue.Enqueue(node);
                         seen.Add(node);                        
                     }                    
+                }
+                Console.WriteLine(vertex);
+            }
+        }
+
+        static void DFS(string point)
+        {
+            // 初始化将起始点放入队列中
+            var stack = new Stack();
+            stack.Push(point);
+            var seen = new HashSet<string>();
+            seen.Add(point);
+            while (stack.Count > 0)
+            {
+                var vertex = stack.Pop().ToString();
+                var nodes = graphic[vertex];
+                foreach (var node in nodes)
+                {
+                    // 如果尚未存在该点则加入该点
+                    if (!seen.Contains(node))
+                    {
+                        stack.Push(node);
+                        seen.Add(node);
+                    }
                 }
                 Console.WriteLine(vertex);
             }
